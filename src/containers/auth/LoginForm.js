@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthForm from '../../components/auth/AuthForm';
-import { changeField, initializeForm } from '../../redux/modules/auth';
+
+import { changeField, initializeForm, login } from '../../redux/modules/auth';
 
 const LoginForm = () => {
   const { form } = useSelector(({ auth }) => ({ form: auth.login }));
@@ -12,6 +13,8 @@ const LoginForm = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(form);
+    dispatch(login({ ...form }));
   };
   useEffect(() => {
     dispatch(initializeForm('login'));

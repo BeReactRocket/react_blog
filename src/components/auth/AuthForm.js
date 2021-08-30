@@ -76,10 +76,10 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             value={form.passwordConfirm}
           />
         )}
+        <ButtonWithMarginTop cyan fullWidth>
+          {text}
+        </ButtonWithMarginTop>
       </form>
-      <ButtonWithMarginTop cyan fullWidth>
-        {text}
-      </ButtonWithMarginTop>
       <Footer>
         {type === 'login' ? (
           <Link to="/register">REGISTER</Link>

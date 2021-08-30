@@ -3,7 +3,7 @@ import Button from '../components/common/Button';
 const PostListPage = () => {
   return (
     <div>
-      PostListPage<Button>버튼</Button>
+      PostListPage<Button>BUTTON</Button>
     </div>
   );
 };

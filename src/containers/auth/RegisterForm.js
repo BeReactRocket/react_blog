@@ -1,17 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import AuthForm from '../../components/auth/AuthForm';
 import {
   changeField,
   initializeForm,
   register,
 } from '../../redux/modules/auth';
+import { check } from '../../redux/modules/user';
 
-const RegisterForm = () => {
-  const { form, auth, authError } = useSelector(({ auth }) => ({
+const RegisterForm = ({ history }) => {
+  const [error, setError] = useState(null);
+
+  const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
     form: auth.register,
     auth: auth.auth,
     authError: auth.authError,
+    user: user.user,
   }));
   const dispatch = useDispatch();
   const onChange = (e) => {
@@ -22,10 +27,19 @@ const RegisterForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const { username, password, passwordConfirm } = form;
-    if (password !== passwordConfirm) {
+    if ([username, password, passwordConfirm].includes('')) {
+      setError('Please fill in all blanks.');
       return;
     }
-    dispatch(register({ username, password, passwordConfirm }));
+    if (password !== passwordConfirm) {
+      setError('Passwords do not match.');
+      dispatch(changeField({ form: 'register', key: 'password', value: '' }));
+      dispatch(
+        changeField({ form: 'register', key: 'passwordConfirm', value: '' }),
+      );
+      return;
+    }
+    dispatch(register({ username, password }));
   };
 
   useEffect(() => {
@@ -36,13 +50,29 @@ const RegisterForm = () => {
     if (authError) {
       console.log('Error has occurred in register.');
       console.log(authError);
+      if (authError.response.status === 400) {
+        setError('Please check the conditions.');
+        return;
+      }
+      if (authError.response.status === 409) {
+        setError('This account already exists.');
+        return;
+      }
+      setError('Unknown Error.');
       return;
     }
     if (auth) {
-      console.log('Register Success!');
       console.log(auth);
+      dispatch(check());
     }
-  }, [authError, auth]);
+  }, [authError, auth, dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      history.push('/');
+      console.log(user);
+    }
+  }, [user, history]);
 
   return (
     <AuthForm
@@ -50,8 +80,9 @@ const RegisterForm = () => {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      error={error}
     />
   );
 };
 
-export default RegisterForm;
+export default withRouter(RegisterForm);

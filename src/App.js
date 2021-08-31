@@ -4,10 +4,12 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import WritePage from './pages/WritePage';
 import PostPage from './pages/PostPage';
+import HeaderContainer from './components/common/HeaderContainer';
 
 function App() {
   return (
     <>
+      <HeaderContainer />
       <Route path={['/', '/@:username']} exact component={PostListPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />

@@ -72,6 +72,11 @@ const RegisterForm = ({ history }) => {
       history.push('/');
       console.log(user);
     }
+    try {
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (error) {
+      console.log('localStorage is not working.');
+    }
   }, [user, history]);
 
   return (

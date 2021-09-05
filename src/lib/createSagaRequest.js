@@ -4,7 +4,7 @@ import { finishLoading, startLoading } from '../redux/modules/loading';
 export const createRequestActionTypes = (type) => {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
-  return [SUCCESS, FAILURE];
+  return [type, SUCCESS, FAILURE];
 };
 
 export default function createSagaRequest(type, request) {

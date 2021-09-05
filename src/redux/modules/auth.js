@@ -9,11 +9,11 @@ import * as authAPI from '../../lib/api/auth';
 const CHANGE_FIELD = 'auth/CHANGE_FIELD';
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
-const REGISTER = 'auth/REGISTER';
-const [REGISTER_SUCCESS, REGISTER_FAILURE] = createRequestActionTypes(REGISTER);
+const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
+  createRequestActionTypes('auth/REGISTER');
 
-const LOGIN = 'auth/LOGIN';
-const [LOGIN_SUCCESS, LOGIN_FAILURE] = createRequestActionTypes(LOGIN);
+const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
+  createRequestActionTypes('auth/LOGIN');
 
 export const changeField = createAction(
   CHANGE_FIELD,

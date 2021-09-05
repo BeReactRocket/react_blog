@@ -7,8 +7,8 @@ import { takeLatest } from '@redux-saga/core/effects';
 import { call } from 'redux-saga/effects';
 
 const TEMP_SET_USER = 'user/TEMP_SET_USER';
-const CHECK = 'user/CHECK';
-const [CHECK_SUCCESS, CHECK_FAILURE] = createRequestActionTypes(CHECK);
+const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] =
+  createRequestActionTypes('user/CHECK');
 const LOGOUT = 'user/LOGOUT';
 
 export const tempSetUser = createAction(TEMP_SET_USER, (user) => user);

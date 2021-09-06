@@ -1,16 +1,21 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
+import PostActionButtons from '../../components/post/PostActionButtons';
 import PostViewer from '../../components/post/PostViewer';
 import { readPost, unloadPost } from '../../redux/modules/post';
+import { setOriginalPost } from '../../redux/modules/write';
 
-const PostViewerContainer = ({ match }) => {
+const PostViewerContainer = ({ match, history }) => {
   const { postId } = match.params;
-  const { post, loading, error } = useSelector(({ post, loading }) => ({
-    post: post.post,
-    error: post.postError,
-    loading: loading['post/READ_POST'],
-  }));
+  const { post, loading, error, user } = useSelector(
+    ({ post, loading, user }) => ({
+      post: post.post,
+      error: post.postError,
+      loading: loading['post/READ_POST'],
+      user: user.user,
+    }),
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +25,25 @@ const PostViewerContainer = ({ match }) => {
     };
   }, [postId, dispatch]);
 
-  return <PostViewer post={post} loading={loading} error={error} />;
+  const onEdit = () => {
+    dispatch(setOriginalPost(post));
+    history.push('/write');
+  };
+
+  const onRemove = () => {};
+
+  const ownPost = (user && user._id) === (post && post.user._id);
+
+  return (
+    <PostViewer
+      post={post}
+      loading={loading}
+      error={error}
+      actionButtons={
+        ownPost && <PostActionButtons onEdit={onEdit} onRemove={onRemove} />
+      }
+    />
+  );
 };
 
 export default withRouter(PostViewerContainer);

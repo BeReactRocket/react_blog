@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
+import AskRemoveModal from './AskRemoveModal';
 
 const PostActionButtonsBlock = styled.div`
   display: flex;
@@ -27,11 +29,29 @@ const ActionButton = styled.button`
 `;
 
 const PostActionButtons = ({ onEdit, onRemove }) => {
+  const [modal, setModal] = useState(false);
+  const onRemoveClick = () => {
+    setModal(true);
+  };
+  const onConfirm = () => {
+    setModal(false);
+    onRemove();
+  };
+  const onCancel = () => {
+    setModal(false);
+  };
   return (
-    <PostActionButtonsBlock>
-      <ActionButton onClick={onEdit}>Edit</ActionButton>
-      <ActionButton>Delete</ActionButton>
-    </PostActionButtonsBlock>
+    <>
+      <PostActionButtonsBlock>
+        <ActionButton onClick={onEdit}>Edit</ActionButton>
+        <ActionButton onClick={onRemoveClick}>Delete</ActionButton>
+      </PostActionButtonsBlock>
+      <AskRemoveModal
+        visible={modal}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+      />
+    </>
   );
 };
 

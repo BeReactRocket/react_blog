@@ -60,12 +60,14 @@ const TagListBlock = styled.div`
   margin-top: 0.5rem;
 `;
 
-const TagItem = React.memo(({ tag }) => <Tag>#{tag}</Tag>);
+const TagItem = React.memo(({ tag, onRemove, onChangeTags }) => (
+  <Tag onClick={() => onRemove(tag)}>#{tag}</Tag>
+));
 
-const TagList = React.memo(({ tags }) => (
+const TagList = React.memo(({ tags, onRemove }) => (
   <TagListBlock>
     {tags.map((tag) => (
-      <TagItem key={tag} tag={tag} />
+      <TagItem key={tag} tag={tag} onRemove={onRemove} />
     ))}
   </TagListBlock>
 ));

@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import Responsive from '../common/Responsive';
@@ -40,6 +41,9 @@ const PostViewer = ({ post, loading, error, actionButtons }) => {
 
   return (
     <PostViewerBlock>
+      <Helmet>
+        <title>{title} - React Blog</title>
+      </Helmet>
       <PostHead>
         <h1>{title}</h1>
         <SubInfo username={user.username} publishedDate={publishedDate} />
